@@ -1,38 +1,216 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+@import '~antd/dist/antd.css';
+
+/* #components-layout-demo-fixed .logo {
+  float: left;
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  background: rgba(255, 255, 255, 0.2);
+}
+.site-layout .site-layout-background {
+  background: rgba(255, 255, 255, 0.596);
+  box-shadow: 2px 2px 2px 3px rgba(0, 0, 0, 0.144);
+} */
+
+.navbar-text{
+  text-decoration: none;
+  color: #FFF;
+  font-family: Ubuntu;
+  font-size: 32px;
+  line-height: 37px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+label {
+  font-family: Ubuntu;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 18px;
+  color: rgba(33, 33, 33, 0.75);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+input.form-control, input.form-control:focus {
+  background: #F0F0FF;
+  width: 195px;
+  height: 30px;
+  background: #FFFFFF;
+  border: 1px solid rgba(33, 33, 33, 0.35);
+  border-radius: 2px;
+}
+
+input{
+  font-family: Ubuntu;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 18px;
+  color: rgba(33, 33, 33, 0.75);
+}
+
+.btn{
+  font-family: Ubuntu;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  width: 195px;
+  height: 30px;
+  background: #212121;
+  border-radius: 2px;
+  color: #FFF;
+  margin-top: 5px;
+}
+.error {
+  position: absolute;
+  color: red;
+  font-size: .6rem;
+}
+
+.heart-sort{
+  width: 150px;
+}
+
+.sort{
+  width: 40px;
+  height: 40px;
+}
+
+.refresh{
+  width: 40px;
+  height: 40px;
+  margin-top: 1px;
+  cursor: pointer;
+}
+
+.refresh:hover{
+  color: red;
+  animation: refresh 1s;
+}
+
+@keyframes refresh {
+  50%{
+    transform: rotate(90deg);
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.heart1{
+  animation: heart 1.5s alternate infinite ease-in;
 }
 
-.App-link {
-  color: #61dafb;
+.heart:hover{
+  animation: heart 1.5s alternate infinite ease-in;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@keyframes heart{
+  0%   {transform: scale(.8);}
+  100% {transform: scale(1.5);}
+}
+
+
+
+.profile-avatar{
+  margin-bottom: 20px;
+}
+
+.show-icon{
+  width: 50px;
+  height: 50px;
+  margin-left: 20px;
+}
+
+.avatar{
+  width: 228px;
+  height: 146px;
+}
+
+/* Common */
+.formField{
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0 0 20px 0px;
+}
+
+@media (max-width:520px) {
+  .heart, .sort{
+    width: 20px;
+    height: 20px;
+    margin-top: 5px;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .heart-sort{
+    width: 80px;
+  }
+
+  .refresh{
+    width: 25px;
+    height: 25px;
+    margin-top: 3px;
+  }
+
+  .navbar-text{
+    font-size: 20px;
+    line-height: 25px;
+  }
+}
+
+@media (max-width:470px) {
+
+  .formField{
+    display: flex;
+    flex-direction: column; 
+    margin-left: -50px;
+  }
+
+  .show-icon{
+    width: 40px;
+    height: 40px;
+  }
+
+  .avatar{
+    width: 250px;
+    height: 170px;
+  }
+}
+
+@media (max-width:460px) {
+
+  .formField{
+    display: flex;
+    flex-direction: column; 
+    margin-left: -50px;
+  }
+
+  .show-icon{
+    width: 40px;
+    height: 40px;
+  }
+
+  .avatar{
+    width: 200px;
+    height: 120px;
+  }
+}
+
+@media (max-width:420px) {
+
+  .formField{
+    display: flex;
+    flex-direction: column; 
+    margin-left: -80px;
+  }
+
+  .show-icon{
+    width: 25px;
+    height: 25px;
+  }
+
+  .avatar{
+    width: 170px;
+    height: 130px;
   }
 }

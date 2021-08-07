@@ -4,7 +4,6 @@ import './App.css';
 import Contacts from './components/Contacts';
 import CreateContact from './components/CreateContact';
 import UpdateContact from './components/UpdateContact';
-
 import { Layout } from 'antd';
 import Favorites from './components/Favorites';
 
@@ -29,7 +28,7 @@ function App() {
               <Route path={'/favorites'}>
                 <Favorites />
               </Route>
-              <Route path='/'>
+              <Route path={'/'}>
                 <Contacts />
               </Route>
             </Switch>

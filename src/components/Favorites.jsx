@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getContacts } from '../api/api';
-import { CardRow, Flex  } from '../shared/common';
+import { Flex  } from '../shared/common';
 import SearchBar from '../shared/SearchBar';
 import az from '../assets/az.png';
 import za from '../assets/za.png';
@@ -12,29 +11,16 @@ const Favorites = () => {
     const [favorites, setFavorites] = useState([]);
 
     useEffect(() => {
-        const getContactsList = async () => {
-            let response = await getContacts();
-
-            if (response.status !== 200) {
-                throw new Error("Something went wrong...")
+        let lists = [];
+        for (let i = localStorage.length * 2; i >= 1; i--) {
+            let getItem = localStorage.getItem('Contact' + i) || 0
+            if (getItem !== 0) {
+                getItem = JSON.parse(localStorage.getItem('Contact' + i))
+                lists.push(getItem);
             }
-
-            response.data.data.map(item => {
-                return localStorage.setItem(`Contact${item.id}`, JSON.stringify(item));
-            });
-
-            let lists = [];
-            for (let i = localStorage.length * 2; i >= 1; i--) {
-                let getItem = localStorage.getItem('Contact' + i) || 0
-                if (getItem !== 0) {
-                    getItem = JSON.parse(localStorage.getItem('Contact' + i))
-                    lists.push(getItem);
-                }
-            }
-            setContacts(lists);
         }
-        getContactsList();
-    }, [])
+        setContacts(lists);
+    }, [localStorage.length])
 
     useEffect(() => {
         for (let i = 1; i <= localStorage.length * 2; i++) {
@@ -67,10 +53,10 @@ const Favorites = () => {
         <div>
             <Flex>
                 <SearchBar placeholder="type to search..." contacts={contacts} />
-                <Flex className="heart-sort">
+                <Flex className="heart-sort" style={{width: '100px'}}>
                     <img src={az} alt="a-z" className='sort' onClick={() => sortContactsAZ()} />
                     <img src={za} alt="z-a" className='sort' onClick={() => sortContactsZA()} />
-                    <BiRefresh className='refresh' onClick={() => window.location.reload()}/>
+                    {/* <BiRefresh className='refresh' onClick={() => window.location.reload()}/> */}
                 </Flex>
             </Flex>
             <div style={{display:'flex', flexWrap: 'wrap'}}>

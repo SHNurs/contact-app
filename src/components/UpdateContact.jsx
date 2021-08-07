@@ -6,7 +6,6 @@ import { TextField } from './TextField';
 import { useParams, useHistory } from "react-router-dom"
 import { notification } from 'antd';
 import { getContact } from '../api/api';
-import { FormField } from '../shared/common';
 import { AiFillHeart } from 'react-icons/ai';
 import { AiOutlineHeart } from 'react-icons/ai';
 

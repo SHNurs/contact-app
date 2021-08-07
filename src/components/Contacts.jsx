@@ -25,19 +25,21 @@ const Contacts = () => {
             response.data.data.map(item => {
                 return localStorage.setItem(`Contact${item.id}`, JSON.stringify(item));
             });
-
-            let lists = [];
-            for (let i = localStorage.length * 2; i >= 1 ; i--){
-                let getItem = localStorage.getItem('Contact' + i) || 0
-                if(getItem !== 0){
-                    getItem = JSON.parse(localStorage.getItem('Contact' + i))
-                    lists.push(getItem);
-                }
-            }
-            setContacts(lists);
         }
         getContactsList();
-    },[])
+    },[]);
+
+    useEffect(()=>{
+        let lists = [];
+        for (let i = localStorage.length * 2; i >= 1; i--) {
+            let getItem = localStorage.getItem('Contact' + i) || 0
+            if (getItem !== 0) {
+                getItem = JSON.parse(localStorage.getItem('Contact' + i))
+                lists.push(getItem);
+            }
+        }
+        setContacts(lists);
+    },  [localStorage.length]);
 
     const sortContactsAZ = () => {
         let array = [...contacts];

@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { updateContact } from '../api/api';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import { TextField } from './TextField';
 import { useParams, useHistory } from "react-router-dom"
 import { notification } from 'antd';
-import { getContact } from '../api/api';
 import { AiFillHeart } from 'react-icons/ai';
 import { AiOutlineHeart } from 'react-icons/ai';
 

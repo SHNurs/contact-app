@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import {getContacts} from '../api/api';
 import SearchBar from '../shared/SearchBar';
 import heart from '../assets/heart.png';
 import az from '../assets/az.png';
@@ -12,8 +11,6 @@ import {getContactsFetch, getContactsSuccess, azSort, zaSort, getListOfContacts}
 import { CardRow, Flex } from '../shared/common';
 
 const Contacts = () => {
-
-// localStorage.clear();
     const contacts = useSelector(state=> state.contacts.contacts);
     const favorites = useSelector(state=> state.contacts.favorites);
     const dispatch = useDispatch();

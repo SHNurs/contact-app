@@ -22,7 +22,6 @@ export const createContact = (data) => {
 
 export const updateContact = (data) => {
     localStorage.removeItem(`Contact${data.id}`);
-    // console.log(data)
     localStorage.setItem(`Contact${data.id}`, JSON.stringify(data));
 }
 

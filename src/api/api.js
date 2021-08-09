@@ -26,5 +26,17 @@ export const updateContact = (data) => {
     localStorage.setItem(`Contact${data.id}`, JSON.stringify(data));
 }
 
+export const removeFavItem = id => {
+    localStorage.removeItem(`favItem${id}`);
+}
+
+export const addFavItem = id => {
+    localStorage.setItem(`favItem${id}`, id);
+}
+
+export const fetchContactData = i => {
+    return localStorage.getItem('Contact' + i)
+}
+
 
 

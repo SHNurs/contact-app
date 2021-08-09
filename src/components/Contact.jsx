@@ -10,19 +10,26 @@ import { AiOutlineHeart } from 'react-icons/ai';
 
 import { CardDiv, Content, Data, Name } from '../shared/common';
 
+import {useSelector, useDispatch} from 'react-redux';
+import {getFavItem, 
+        checkFavItemsSuccess, addRemoveFavItemSuccess,
+        removeFavoriteItem, addFavoriteItem,
+        updateContactData} from '../redux/contactsReducer';
+
 
 
 const Contact = ({id, firstName, lastName, city, country, phoneNumber, email, website, image}) => {
-    const [favorites, setFavorites] = useState([]);
+    const favorites = useSelector(state => state.contacts.favorites);
+    const dispatch = useDispatch();
 
     useEffect(()=>{
         for(let i = 1; i <= localStorage.length * 2; i++){
             let arr = favorites;
-            const getArray = localStorage.getItem(`favItem${i}`) || 0;
+            const getItem =  getFavItem(i);
 
-            if(getArray !== 0){
+            if (getItem !== 0) {
                 arr.push(i)
-                setFavorites([...arr]);
+                dispatch(checkFavItemsSuccess(arr));
             }
         }
     }, [])
@@ -30,16 +37,14 @@ const Contact = ({id, firstName, lastName, city, country, phoneNumber, email, we
 
     const addFavorite = (id) => {
         id = parseInt(id);
-        const getArray = localStorage.getItem(`favItem${id}`) || 0;
-        let arr = favorites;
+        const getItem = getFavItem(id);
 
-        if(getArray !== 0){
-            localStorage.removeItem(`favItem${id}`);
-            setFavorites(favorites.filter(item => item !== id));
-        }else{
-            localStorage.setItem(`favItem${id}`, id);
-            arr.push(id)
-            setFavorites([...arr]);
+        if (getItem !== 0) {
+            removeFavoriteItem(id);
+            dispatch(checkFavItemsSuccess(favorites.filter(item => item !== id)));
+        } else {
+            addFavoriteItem(id);
+            dispatch(addRemoveFavItemSuccess(id));
         }
     }
 

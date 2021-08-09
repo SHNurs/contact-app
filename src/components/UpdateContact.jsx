@@ -9,14 +9,17 @@ import { getContact } from '../api/api';
 import { AiFillHeart } from 'react-icons/ai';
 import { AiOutlineHeart } from 'react-icons/ai';
 
+import {useSelector, useDispatch} from 'react-redux';
+import {getContactData, getFavItem, 
+        checkFavItemsSuccess, addRemoveFavItemSuccess,
+        removeFavoriteItem, addFavoriteItem,
+        updateContactData} from '../redux/contactsReducer';
+
 const UpdateContact = () => {
     let { id } = useParams();
     id = parseInt(id);
     const history = useHistory();
-
-    const contact = getContact(id);
     const message = 'Not defined';
-
 
     let schema = yup.object().shape({
         firstName: yup.string().required('First name is required'),
@@ -28,30 +31,31 @@ const UpdateContact = () => {
         website: yup.string()
     });
 
-
-
-    const [favorites, setFavorites] = useState([]);
+    const contact = getContactData(id);
+    const favorites = useSelector(state => state.contacts.favorites);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         let arr = favorites;
-        const getArray = localStorage.getItem(`favItem${id}`) || 0;
+        const getItem =  getFavItem(id);
 
-        if (getArray !== 0) {
+        if (getItem !== 0) {
             arr.push(id)
-            setFavorites([...arr]);
+            dispatch(checkFavItemsSuccess(arr));
         }
     }, [])
 
     const addFavorite = (id) => {
         id = parseInt(id);
-        const getArray = localStorage.getItem(`favItem${id}`) || 0;
+        const getItem = getFavItem(id);
 
-        if (getArray !== 0) {
-            localStorage.removeItem(`favItem${id}`);
-            setFavorites(favorites.filter(item => item !== id));
+        // console.log(favorites);
+        if (getItem !== 0) {
+            removeFavoriteItem(id);
+            dispatch(checkFavItemsSuccess(favorites.filter(item => item !== id)));
         } else {
-            localStorage.setItem(`favItem${id}`, id);
-            setFavorites([...favorites, id]);
+            addFavoriteItem(id);
+            dispatch(addRemoveFavItemSuccess(id));
         }
     }
 
@@ -68,7 +72,7 @@ const UpdateContact = () => {
             }}
             validationSchema={schema}
             onSubmit={async (data) => {
-                updateContact({ ...data, id})
+                updateContactData(data, id)
                 notification.config({
                     duration: 2
                 });
@@ -78,7 +82,7 @@ const UpdateContact = () => {
                     description:
                         'Contact is saved'
                 });
-                history.push("/")
+                history.goBack()
             }}
         >
             {() => (

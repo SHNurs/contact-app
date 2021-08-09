@@ -4,32 +4,30 @@ import SearchBar from '../shared/SearchBar';
 import az from '../assets/az.png';
 import za from '../assets/za.png';
 import Contact from './Contact';
+import { Link} from 'react-router-dom';
 import { BiRefresh } from 'react-icons/bi';
+import {useSelector, useDispatch} from 'react-redux';
+import {azSort, zaSort, getListOfContacts, checkFavItemsSuccess, getFavItem, getContactsSuccess} from '../redux/contactsReducer';
+
 
 const Favorites = () => {
-    const [contacts, setContacts] = useState([]);
-    const [favorites, setFavorites] = useState([]);
+    const contacts = useSelector(state=> state.contacts.contacts);
+    const favorites = useSelector(state=> state.contacts.favorites);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        let lists = [];
-        for (let i = localStorage.length * 2; i >= 1; i--) {
-            let getItem = localStorage.getItem('Contact' + i) || 0
-            if (getItem !== 0) {
-                getItem = JSON.parse(localStorage.getItem('Contact' + i))
-                lists.push(getItem);
-            }
-        }
-        setContacts(lists);
+        let lists = getListOfContacts();
+        dispatch(getContactsSuccess(lists));
     }, [localStorage.length])
 
     useEffect(() => {
-        for (let i = 1; i <= localStorage.length * 2; i++) {
+        for(let i = 1; i <= localStorage.length * 2; i++){
             let arr = favorites;
-            const getArray = localStorage.getItem(`favItem${i}`) || 0;
+            const getItem =  getFavItem(i);
 
-            if (getArray !== 0) {
+            if (getItem !== 0) {
                 arr.push(i)
-                setFavorites([...arr]);
+                dispatch(checkFavItemsSuccess(arr));
             }
         }
     }, [])
@@ -37,17 +35,15 @@ const Favorites = () => {
     const sortContactsAZ = () => {
         let array = [...contacts];
         array.sort((a, b) => a.firstName.localeCompare(b.firstName));
-        setContacts([...array])
+        dispatch(azSort([...array]));
     }
 
     const sortContactsZA = () => {
         let array = [...contacts];
         array.sort((a, b) => a.firstName.localeCompare(b.firstName));
         array.reverse();
-        setContacts([...array]);
+        dispatch(zaSort([...array]));
     }
-
-
 
     return(
         <div>
@@ -60,8 +56,8 @@ const Favorites = () => {
                 </Flex>
             </Flex>
             <div style={{display:'flex', flexWrap: 'wrap'}}>
-                {contacts.length === 0
-                    ? <div>There are no contacts in your list!</div>
+                {favorites.length === 0
+                    ? <div>There are no favorite contacts in your list! <Link to="/">-Click to add-</Link></div>
                     : contacts.map(item => {
                         if(favorites.includes(item.id)){
                             return <Contact

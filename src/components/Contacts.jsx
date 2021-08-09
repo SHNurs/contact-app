@@ -6,58 +6,42 @@ import az from '../assets/az.png';
 import za from '../assets/za.png';
 import { Link} from 'react-router-dom';
 import Contact from './Contact';
+import {useSelector, useDispatch} from 'react-redux';
+import {getContactsFetch, getContactsSuccess, azSort, zaSort, getListOfContacts} from '../redux/contactsReducer';
 
 import { CardRow, Flex } from '../shared/common';
 
-
-
 const Contacts = () => {
-    const [contacts, setContacts] = useState([]);
 
-    useEffect(() =>{
-        const getContactsList = async () => {
-            let response = await getContacts();
+// localStorage.clear();
+    const contacts = useSelector(state=> state.contacts.contacts);
+    const favorites = useSelector(state=> state.contacts.favorites);
+    const dispatch = useDispatch();
 
-            if (response.status !== 200) {
-                throw new Error("Something went wrong...")
-            }
-
-            response.data.data.map(item => {
-                return localStorage.setItem(`Contact${item.id}`, JSON.stringify(item));
-            });
-        }
-        getContactsList();
-    },[]);
+    useEffect(() => getContactsFetch(),[]);
 
     useEffect(()=>{
-        let lists = [];
-        for (let i = localStorage.length * 2; i >= 1; i--) {
-            let getItem = localStorage.getItem('Contact' + i) || 0
-            if (getItem !== 0) {
-                getItem = JSON.parse(localStorage.getItem('Contact' + i))
-                lists.push(getItem);
-            }
-        }
-        setContacts(lists);
+        let lists = getListOfContacts();
+        dispatch(getContactsSuccess(lists));
     },  [localStorage.length]);
 
     const sortContactsAZ = () => {
         let array = [...contacts];
         array.sort((a, b) => a.firstName.localeCompare(b.firstName));
-        setContacts([...array])  
+        dispatch(azSort([...array]));
     }
 
     const sortContactsZA = () => {
         let array = [...contacts];
         array.sort((a, b) => a.firstName.localeCompare(b.firstName));
         array.reverse();
-        setContacts([...array]);
+        dispatch(zaSort([...array]));
     }
 
     return(
         <div>
             <Flex>
-                <SearchBar placeholder="type to search..." contacts={contacts} setContacts={setContacts}/>
+                <SearchBar placeholder="type to search..." contacts={contacts}/>
                 <Flex className='heart-sort'>
                     <Link to={'/favorites'}><img src={heart} alt="heart" className='heart'/></Link>
                     <img src={az} alt="a-z" className='sort' onClick={() => sortContactsAZ()}/>

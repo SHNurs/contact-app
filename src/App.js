@@ -7,7 +7,6 @@ import UpdateContact from './components/UpdateContact';
 import { Layout } from 'antd';
 import Favorites from './components/Favorites';
 
-
 const { Content, Footer } = Layout;
 
 
